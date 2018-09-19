@@ -7,21 +7,21 @@ app.config["SECRET_KEY"] = "2aa24047ca929ad7d69e91b1da76ad40"
 posts = [
 	{
 		'autor': 'IsQuilo',
-		'titulo': 'Quem vê, pensa',
+		'titulo': 'Só uns',
 		'conteudo': 'Quando 1 Xuqnimirrain, 2 não Kipsy my baby.',
 		'data': '16/07/2018'
 	},
 	{
-		'autor': 'MeuZovo',
-		'titulo': 'Que eu sei oq to fazendo',
-		'conteudo': 'Entenda por que Python > Java',
+		'autor': 'Berg',
+		'titulo': 'Post estatico',
+		'conteudo': 'Entenda por que Python > All',
 		'data': '17/07/2018'
 	},
 	{
 		'autor': 'Boiiii',
-		'titulo': 'Mal sabe, coitado.',
+		'titulo': 'Pra testar',
 		'conteudo': 'Hotel Babilôbnia está em construção!',
-		'data': '18/07/2099'
+		'data': 'Ném é data kkk'
 	}
 ]
 
