@@ -2,14 +2,27 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy 
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flaskproj.config import Config
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "2aa24047ca929ad7d69e91b1da76ad40"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 bcrypt = Bcrypt()
-gerenciador_login = LoginManager(app)
-gerenciador_login.login_view = 'login'
+gerenciador_login = LoginManager()
+gerenciador_login.login_view = 'users.login'
 gerenciador_login.login_message_category = 'info'
 
-from flaskproj import routes
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    bcrypt.init_app(app)
+    gerenciador_login.init_app(app)
+    
+    from flaskproj.usuarios.routes import users
+    from flaskproj.posts.routes import posts
+    from flaskproj.main.routes import main
+    app.register_blueprint(users)
+    app.register_blueprint(posts)
+    app.register_blueprint(main)
+
+    return app

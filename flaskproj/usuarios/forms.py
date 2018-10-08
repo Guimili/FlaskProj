@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
-from flaskproj.models import Usuario
+from flask_wtf.file import FileAllowed, FileField
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
+from flaskproj.models import Usuario
 
 
 class RegistForm(FlaskForm):
@@ -48,9 +48,3 @@ class UpdateForm(FlaskForm):
             usuario = Usuario.query.filter_by(email=email.data).first()
             if usuario:
                 raise ValidationError('Email já utilizado! Por favor, escolha outro =)')
-
-class PostForm(FlaskForm):
-    titulo = StringField('Titulo', validators=[DataRequired()])
-    conteudo = TextAreaField('Conteudo', validators=[DataRequired()])
-    enviar = SubmitField('Enviar')
-

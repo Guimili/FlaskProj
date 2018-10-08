@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='imagens_perfil/' + post.autor.imagem_file) }}" alt="" class="rounded-circle arcticle-img">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('users.user_posts', username=post.autor.nome) }}">{{ post.autor.nome }}</a>
+              <small class="text-muted">{{ post.data_postagem.strftime('%Y-%m-%d') }}</small>
+              {% if post.autor == current_user %}
+                <div>
+                  <a href="{{ url_for('posts.post_editar', post_id=post.id) }}" class="btn btn-secondary btn-sm mb-1 mt-1">Editar</a>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal" >Apagar</button>
+                </div>
+              {% endif %}
+            </div>
+              <h2 class="arcticle-title">{{ post.titulo }}</h2>
+              <p class="article-content">{{ post.conteudo }}</p>
+          </div>
+        </article>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Certeza que deseja apagar isso? D:</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <form action="{{ url_for('posts.post_apagar', post_id=post.id) }}" method="post">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+{% endblock conteudo %}
