@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired
 
 
 class PostForm(FlaskForm):
-    titulo = StringField('Titulo', validators=[DataRequired()])
-    conteudo = TextAreaField('Conteudo', validators=[DataRequired()])
-    enviar = SubmitField('Enviar')
+    title = StringField('Titulo', validators=[DataRequired()])
+    content = TextAreaField('Conteudo', validators=[DataRequired()])
+    submit = SubmitField('Enviar')
     

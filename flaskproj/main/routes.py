@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from flaskproj.models import Postagem
+from flaskproj.models import Post
 
 main = Blueprint('main', __name__)
 
@@ -7,10 +7,10 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @main.route('/home')
 def home():
-	pagina = request.args.get('page', 1, type=int)
-	postagens = Postagem.query.order_by(Postagem.data_postagem.desc()).paginate(per_page=4, page=pagina)
-	return render_template('home.html', posts = postagens, titulo = 'Home')
+	page = request.args.get('page', 1, type=int)
+	posts = Post.query.order_by(Post.date_posted.desc()).paginate(per_page=4, page=page)
+	return render_template('home.html', posts = posts, titulo = 'Home')
 
 @main.route('/sobre')
-def sobre():
-	return render_template('sobre.html', titulo = 'Sobre')
+def about():
+	return render_template('about.html', titulo = 'Sobre')

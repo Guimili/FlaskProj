@@ -3,48 +3,48 @@ from flask_wtf.file import FileAllowed, FileField
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
-from flaskproj.models import Usuario
+from flaskproj.models import User
 
 
 class RegistForm(FlaskForm):
-    usuario = StringField("Usuario", validators=[DataRequired(), Length(min=3, max=20)])
+    user = StringField("Usuario", validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField("E-mail", validators=[DataRequired(), Email()])
-    senha = PasswordField("Senha", validators=[DataRequired()])
+    password = PasswordField("Senha", validators=[DataRequired()])
     confirm = PasswordField("Confirme sua senha", validators=[DataRequired(), EqualTo("senha")])
-    registrar = SubmitField("Resgistrar-se")
+    submit = SubmitField("Resgistrar-se")
 
-    def validate_usuario(self, usuario):
-        usuario = Usuario.query.filter_by(nome=usuario.data).first()
-        if usuario:
+    def validate_user(self, user):
+        user = User.query.filter_by(nome=user.data).first()
+        if user:
             raise ValidationError('Usuário já existente! Por favor, escolha outro =)')
 
     def validate_email(self, email):
-        usuario = Usuario.query.filter_by(email=email.data).first()
-        if usuario:
+        user = User.query.filter_by(email=email.data).first()
+        if user:
             raise ValidationError('Email já utilizado! Por favor, escolha outro =)')
 
 
 class LoginForm(FlaskForm):
     email = StringField("E-mail", validators=[DataRequired(), Email()])
-    senha = PasswordField("Senha", validators=[DataRequired()])
-    lembrar = BooleanField("Lembrar senha")
-    login = SubmitField("Login")
+    password = PasswordField("Senha", validators=[DataRequired()])
+    remember = BooleanField("Lembrar senha")
+    submit = SubmitField("Login")
 
 
 class UpdateForm(FlaskForm):
-    usuario = StringField("Usuario", validators=[DataRequired(), Length(min=3, max=20)])
+    user = StringField("Usuario", validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField("E-mail", validators=[DataRequired(), Email()])
-    imagem = FileField('Atualizar Imagem de Perfil', validators=[FileAllowed(['jpg', 'png'])])
-    atualizar = SubmitField("Atualizar")
+    image = FileField('Atualizar Imagem de Perfil', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField("Atualizar")
 
-    def validate_usuario(self, usuario):
-        if usuario.data != current_user.nome:
-            usuario = Usuario.query.filter_by(nome=usuario.data).first()
-            if usuario:
+    def validate_user(self, user):
+        if user.data != current_user.username:
+            user = User.query.filter_by(username=user.data).first()
+            if user:
                 raise ValidationError('Usuário já existente! Por favor, escolha outro =)')
 
     def validate_email(self, email):
         if email.data != current_user.email:
-            usuario = Usuario.query.filter_by(email=email.data).first()
-            if usuario:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
                 raise ValidationError('Email já utilizado! Por favor, escolha outro =)')
