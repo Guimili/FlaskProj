@@ -10,11 +10,11 @@ class RegistForm(FlaskForm):
     user = StringField("Usuario", validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField("E-mail", validators=[DataRequired(), Email()])
     password = PasswordField("Senha", validators=[DataRequired()])
-    confirm = PasswordField("Confirme sua senha", validators=[DataRequired(), EqualTo("senha")])
+    confirm = PasswordField("Confirme sua senha", validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField("Resgistrar-se")
 
     def validate_user(self, user):
-        user = User.query.filter_by(nome=user.data).first()
+        user = User.query.filter_by(username=user.data).first()
         if user:
             raise ValidationError('Usuário já existente! Por favor, escolha outro =)')
 

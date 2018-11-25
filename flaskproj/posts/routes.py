@@ -12,18 +12,18 @@ posts = Blueprint('posts', __name__)
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
-		post = Post(titulo=form.title.data, conteudo=form.content.data, author=current_user)
+		post = Post(title=form.title.data, content=form.content.data, author=current_user)
 		db.session.add(post)
 		db.session.commit()
 		flash('Seu post foi criado!', 'success')
 		return redirect(url_for('main.home'))
-	return render_template('new_post.html', titulo='Novo Post',
+	return render_template('new_post.html', title='Novo Post',
 		form = form, legend='Novo Post')
 
 @posts.route('/posts/<int:post_id>')
 def post(post_id):
 	post = Post.query.get_or_404(post_id)
-	return render_template('post.html', titulo=post.title, post=post)
+	return render_template('post.html', title=post.title, post=post)
 
 @posts.route('/posts/<int:post_id>/editar', methods=['GET', 'POST'])
 @login_required
@@ -39,9 +39,9 @@ def edit_post(post_id):
 		flash('Seu post foi atualizado!', 'success')
 		return redirect(url_for('posts.post', post_id=post.id))
 	elif request.method == 'GET' :	
-		form.title.data = post.titulo
+		form.title.data = post.title
 		form.content.data = post.content
-	return render_template('new_post.html', titulo="Editar Post",
+	return render_template('new_post.html', title="Editar Post",
 		form=form, legend='Editar Post')
 
 @posts.route('/posts/<int:post_id>/apagar', methods=['POST'])

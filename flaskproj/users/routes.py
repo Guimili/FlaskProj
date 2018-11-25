@@ -15,7 +15,7 @@ def register():
 	form = RegistForm()
 	if form.validate_on_submit():
 		hash_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user = User(nome=form.user.data, email=form.email.data, password=hash_password)
+		user = User(username=form.user.data, email=form.email.data, password=hash_password)
 		db.session.add(user)
 		db.session.commit()
 		flash('Sua conta foi criada com sucesso! Você já pode realizar um login =)', 'success')
@@ -65,8 +65,8 @@ def account():
 @users.route('/user/<string:username>')
 def user_posts(username):
 	page = request.args.get('page', 1, type=int)
-	user = User.query.filter_by(nome=username).first_or_404()
-	posts = Post.query.filter_by(autor=user)\
+	user = User.query.filter_by(username=username).first_or_404()
+	posts = Post.query.filter_by(author=user)\
 		.order_by(Post.date_posted.desc())\
 		.paginate(page=page, per_page=4)
 	return render_template('user_posts.html', posts=posts, user=user)
